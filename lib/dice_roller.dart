@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types, prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: camel_case_types, prefer_const_constructors, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -11,50 +11,77 @@ class diceRoller extends StatefulWidget {
 }
 
 class _diceRollerState extends State<diceRoller> {
-  AssetImage one = AssetImage('assets/images/one.png');
-  AssetImage two = AssetImage('assets/images/two.png');
-  AssetImage three = AssetImage('assets/images/three.png');
-  AssetImage four = AssetImage('assets/images/four.png');
-  AssetImage five = AssetImage('assets/images/five.png');
-  AssetImage six = AssetImage('assets/images/six.png');
+  var one = 'one';
+  var two = 'two';
+  var three = 'three';
+  var four = 'four';
+  var five = 'five';
+  var six = 'six';
 
-  AssetImage diceImage = AssetImage("");
+  var diceImage;
+  var secImage;
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      diceImage = one;
-    });
+    diceImage = one;
+    secImage = six;
   }
 
-  void rollDice() {
-    var random = (Random().nextInt(6)) + 1;
-
-    AssetImage newImage = AssetImage("");
-
+  _diceImage() {
+    var random = Random().nextInt(6) + 1;
+    var newdiceImage;
     switch (random) {
       case 1:
-        newImage = one;
+        newdiceImage = one;
         break;
       case 2:
-        newImage = two;
+        newdiceImage = two;
         break;
       case 3:
-        newImage = three;
+        newdiceImage = three;
         break;
       case 4:
-        newImage = four;
+        newdiceImage = four;
         break;
       case 5:
-        newImage = five;
+        newdiceImage = five;
         break;
       case 6:
-        newImage = six;
+        newdiceImage = six;
         break;
     }
     setState(() {
-      diceImage = newImage;
+      diceImage = newdiceImage;
+    });
+  }
+
+  _secRoller() {
+    var secrandom = Random().nextInt(6) + 1;
+    var secdiceImage;
+
+    switch (secrandom) {
+      case 1:
+        secdiceImage = one;
+        break;
+      case 2:
+        secdiceImage = two;
+        break;
+      case 3:
+        secdiceImage = three;
+        break;
+      case 4:
+        secdiceImage = four;
+        break;
+      case 5:
+        secdiceImage = five;
+        break;
+      case 6:
+        secdiceImage = six;
+        break;
+    }
+    setState(() {
+      secImage = secdiceImage;
     });
   }
 
@@ -64,25 +91,46 @@ class _diceRollerState extends State<diceRoller> {
       appBar: AppBar(
         title: Text(
           'Dice Roller',
-          style: TextStyle(
-            color: Colors.black,
-          ),
+          style: TextStyle(color: Colors.black),
         ),
+        backgroundColor: Colors.yellow,
         centerTitle: true,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Image.asset(
+                  'assets/images/$diceImage.png',
+                  width: 100,
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Image.asset(
+                  'assets/images/$secImage.png',
+                  width: 100,
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          _diceImage();
+          _secRoller();
+        },
+        label: Text(
+          'Roll the Dice',
+          style: TextStyle(color: Colors.black),
+        ),
         backgroundColor: Colors.yellow,
       ),
-      body: Container(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image(
-                image: diceImage,
-              )
-            ],
-          ),
-        ),
-      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
